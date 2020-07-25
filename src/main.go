@@ -1,8 +1,10 @@
 package main
 import (
-    "fmt"
-    "os/exec"
-    "flag"
+	// "encoding/xml"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 
@@ -18,9 +20,11 @@ func main(){
 }
 
 func GetRSS(url string) (string, int){
-    out, err := exec.Command("curl",url).Output()
+    out, err := http.Get(url)
     if err != nil {
         return "",-1
     }
-    return string(out), 0
+    body, _ := ioutil.ReadAll(out.Body)
+    defer out.Body.Close()
+    return string(body), 0
 }
