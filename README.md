@@ -4,8 +4,6 @@ A Podcast manager for console.
 
 # Usage
 
-comming soon
-
 # License
 
 MIT
