@@ -8,7 +8,13 @@ import (
 
 func main(){
     flag.Parse()
-    fmt.Println(GetRSS("https://www.nhk.or.jp/r-news/podcast/nhkradionews.xml"))
+    url := flag.Arg(0)
+    xml, retFlag := GetRSS(url)
+    if retFlag != -1{
+        fmt.Println(xml)
+    } else {
+        fmt.Println("ERR")
+    }
 }
 
 func GetRSS(url string) (string, int){
