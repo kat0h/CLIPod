@@ -28,3 +28,7 @@ func GetRSS(url string) (string, int){
     defer out.Body.Close()
     return string(body), 0
 }
+
+func XmlParse(xml string){
+    return
+}
