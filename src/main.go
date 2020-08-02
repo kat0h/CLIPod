@@ -31,13 +31,25 @@ type Channel struct {
     ItunesImage     ItunesImage      `xml:"http://www.itunes.com/dtds/podcast-1.0.dtd image"`
     LastBuildDate   string           `xml:"lastBuildDate"`
     ItunesKeywords  string           `xml:"http://www.itunes.com/dtds/podcast-1.0.dtd keywords"`
+    Item            []Item           `xml:"item"`
 }
-type ItunesCategory struct {
-    Text            string   `xml:"text,attr"`
+    type ItunesCategory struct {
+        Text            string   `xml:"text,attr"`
+    }
+    type ItunesImage    struct {
+        Href            string   `xml:"href,attr"`
+    }
+type Item    struct{
+    Title               string    `xml:"title"`
+    Enclosure           Enclosure `xml:"enclosure"`
+    PubDate             string    `xml:"pubDate"`
+    Duration            string    `xml:"http://www.itunes.com/dtds/podcast-1.0.dtd duration"`
 }
-type ItunesImage    struct {
-    Href            string   `xml:"href,attr"`
-}
+    type Enclosure      struct {
+        Url             string    `xml:"url,attr"`
+        Length          string    `xml:"length,attr"`
+        Type            string    `xml:"type,attr"`
+    }
 func XmlParse(xmlStr string) (*rss) {
     retData := new(rss)
     parseErr := xml.Unmarshal([]byte(xmlStr), &retData)
