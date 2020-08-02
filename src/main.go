@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+    "github.com/mattn/go-runewidth"
+    "github.com/rivo/tview"
 )
 
 func GetRSS(url string) (string, int){
@@ -62,13 +65,32 @@ func XmlParse(xmlStr string) (*rss) {
 }
 
 func main(){
-    flag.Parse()
-    url := flag.Arg(0)
-    xmlData, retFlag := GetRSS(url)
-    if retFlag != -1{
-        rssData := XmlParse(xmlData)
-        fmt.Printf("%#v\n", rssData)
-    } else {
-        fmt.Println("ERR")
-    }
+    // // URLを読む
+    // flag.Parse()
+    // url := flag.Arg(0)
+    // // RSSの取得
+    // xmlData, retFlag := GetRSS(url)
+    // if retFlag == -1{
+    //     fmt.Println("エラー: URLを指定してください。")
+    // }
+    // rssData := XmlParse(xmlData)
+    // fmt.Printf("%#v\n", rssData)
+
+    runewidth.DefaultCondition.EastAsianWidth = false
+    window()
+}
+
+func window() {
+    app := tview.NewApplication()
+    list := tview.NewList().
+        AddItem("List item 1", "Some explanatory text", 'a', nil).
+        AddItem("List item 2", "Some explanatory text", 'b', nil).
+        AddItem("List item 3", "Some explanatory text", 'c', nil).
+        AddItem("List item 4", "Some explanatory text", 'd', nil).
+        AddItem("Quit", "Press to exit", 'q', func() {
+            app.Stop()
+        })
+        if err := app.SetRoot(list, true).SetFocus(list).Run(); err != nil {
+            panic(err)
+        }
 }
