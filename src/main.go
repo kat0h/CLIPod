@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-    "github.com/mattn/go-runewidth"
-    "github.com/rivo/tview"
+        "github.com/mattn/go-runewidth"
+        "github.com/rivo/tview"
 )
 
 func GetRSS(url string) (string, int){
