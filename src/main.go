@@ -27,12 +27,14 @@ func main(){
     fmt.Printf("%#v\n", rssData)
 
     runewidth.DefaultCondition.EastAsianWidth = false
-    // window()
+    window()
 }
 
 func window() {
-    app := tview.NewApplication()
-    if err := app.SetRoot(list, true).SetFocus(list).Run(); err != nil {
-        panic(err)
-    }
+    box := tview.NewBox().
+        SetBorder(true).
+        SetTitle("Box Demo")
+        if err := tview.NewApplication().SetRoot(box, true).Run(); err != nil {
+            panic(err)
+        }
 }
