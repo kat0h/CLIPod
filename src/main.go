@@ -12,12 +12,7 @@ import (
     "github.com/rivo/tview"
 )
 
-
-func main(){
-    // URLを読む
-    flag.Parse()
-    url := flag.Arg(0)
-    // RSSの取得
+func main2(url string){
     xmlData, retFlag := rss.GetRSS(url)
     if retFlag == -1{
         fmt.Println("エラー: URLを指定してください。")
@@ -25,6 +20,14 @@ func main(){
     }
     rssData := rss.XmlParse(xmlData)
     fmt.Printf("%#v\n", rssData)
+}
+
+func main(){
+    // URLを読む
+    // flag.Parse()
+    // url := flag.Arg(0)
+    // RSSの取得
+    // main2(url)
 
     runewidth.DefaultCondition.EastAsianWidth = false
     window()
