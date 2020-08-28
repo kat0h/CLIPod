@@ -36,7 +36,7 @@ func main(){
 func window() {
     box := tview.NewBox().
         SetBorder(true).
-        SetTitle("Box Demo")
+        SetTitle("Demo")
         if err := tview.NewApplication().SetRoot(box, true).Run(); err != nil {
             panic(err)
         }
