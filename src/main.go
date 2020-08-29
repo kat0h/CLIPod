@@ -1,43 +1,50 @@
 package main
 
 import (
-    "flag"
-    "fmt"
+	"flag"
+	"fmt"
+	"strconv"
 
-    // サブ
-    "./rss"
+	// サブ
+	"./rssLib"
 
-    // 外部ライブラリ
-    "github.com/mattn/go-runewidth"
-    "github.com/rivo/tview"
+	// 外部ライブラリ
+	"github.com/mattn/go-runewidth"
+	// "github.com/rivo/tview"
 )
 
-func main2(url string){
-    xmlData, retFlag := rss.GetRSS(url)
+func getRssData(url string) (*rssLib.RssData){
+    xmlData, retFlag := rssLib.GetRSS(url)
     if retFlag == -1{
         fmt.Println("エラー: URLを指定してください。")
-        return
+        return new(rssLib.RssData)
     }
-    rssData := rss.XmlParse(xmlData)
-    fmt.Printf("%#v\n", rssData)
+    retData := rssLib.XmlParse(xmlData)
+    return retData
 }
 
 func main(){
     // URLを読む
-    // flag.Parse()
-    // url := flag.Arg(0)
+    flag.Parse()
+    url := flag.Arg(0)
+    if url == "" {
+        url = "https://www.nhk.or.jp/r-news/podcast/nhkradionews.xml"
+    }
     // RSSの取得
-    // main2(url)
+    podRssData := getRssData(url)
 
-    runewidth.DefaultCondition.EastAsianWidth = false
-    window()
+    window(*podRssData, url)
 }
 
-func window() {
-    box := tview.NewBox().
-        SetBorder(true).
-        SetTitle("Demo")
-        if err := tview.NewApplication().SetRoot(box, true).Run(); err != nil {
-            panic(err)
-        }
+func window(paraData rssLib.RssData, url string) {
+    runewidth.DefaultCondition.EastAsianWidth = false
+    infoStr := "Infomation about the " + url + "\n" +
+               "\n" +
+               "Title     : " + paraData.Channel.Title + "\n" +
+               "CopyRight : " + paraData.Channel.CopyRight + "\n" +
+               "Category  : " + paraData.Channel.ItunesCategory.Text + "\n" +
+               "\n" +
+               strconv.Itoa(len(paraData.Channel.Item)) + "話のエピソードがあります"
+
+    fmt.Printf("%s\n", infoStr)
 }

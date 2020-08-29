@@ -1,4 +1,4 @@
-package rss
+package rssLib
 
 import (
 	"encoding/xml"
@@ -17,7 +17,7 @@ func GetRSS(url string) (string, int){
     return string(body), 0
 }
 
-type rss struct {
+type RssData struct {
     Channel Channel `xml:"channel"`
 }
 type Channel struct {
@@ -50,8 +50,8 @@ type Item    struct{
         Length          string    `xml:"length,attr"`
         Type            string    `xml:"type,attr"`
     }
-func XmlParse(xmlStr string) (*rss) {
-    retData := new(rss)
+func XmlParse(xmlStr string) (*RssData) {
+    retData := new(RssData)
     parseErr := xml.Unmarshal([]byte(xmlStr), &retData)
     if parseErr != nil {
         fmt.Println("XML Unmarshal error:", parseErr)
