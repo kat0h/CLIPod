@@ -8,7 +8,7 @@ import (
 	// サブ
 	"./rssLib"
 
-	// 外部ライブラリ
+	// Lib
 	"github.com/mattn/go-runewidth"
 	// "github.com/rivo/tview"
 )
