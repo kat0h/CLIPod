@@ -16,7 +16,7 @@ import (
 func getRssData(url string) (*rssLib.RssData){
     xmlData, retFlag := rssLib.GetRSS(url)
     if retFlag == -1{
-        fmt.Println("エラー: URLを指定してください。")
+        fmt.Println("Error : url missing")
         return new(rssLib.RssData)
     }
     retData := rssLib.XmlParse(xmlData)
