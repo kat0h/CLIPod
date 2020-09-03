@@ -10,7 +10,7 @@ import (
 
 	// Lib
 	"github.com/mattn/go-runewidth"
-	// "github.com/rivo/tview"
+	"github.com/rivo/tview"
 )
 
 func getRssData(url string) (*rssLib.RssData){
@@ -37,6 +37,7 @@ func main(){
 }
 
 func window(paraData rssLib.RssData, url string) {
+    // 表示のズレを防止
     runewidth.DefaultCondition.EastAsianWidth = false
     infoStr := "Infomation about the " + url + "\n" +
                "\n" +
@@ -46,5 +47,18 @@ func window(paraData rssLib.RssData, url string) {
                "\n" +
                strconv.Itoa(len(paraData.Channel.Item)) + "話のエピソードがあります"
 
-    fmt.Printf("%s\n", infoStr)
+    app := tview.NewApplication()
+    textView := tview.NewTextView().
+        SetRegions(true).
+        SetChangedFunc(func() {
+            app.Draw()
+        })
+    go func() {
+        fmt.Fprintf(textView, "%s", infoStr)
+    }()
+    textView.SetBorder(true)
+    if err := app.SetRoot(textView, true).SetFocus(textView).Run(); err != nil {
+        panic(err)
+    }
 }
+
