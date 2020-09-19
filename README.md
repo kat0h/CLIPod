@@ -4,7 +4,7 @@ A Podcast manager for console.
 
 # Usage
 
-Sorry this program is not yet available
+This program is not yet available
 
 # License
 
