@@ -11,6 +11,7 @@ type Gui struct {
 	App      *tview.Application
 	Info     *Info
 	Episodes *Episodes
+	Image    *Image
 	Flex     *tview.Flex
 }
 
@@ -25,21 +26,28 @@ func New(url string) *Gui {
 	}
 	dat := getRss(url)
 	g := &Gui{
-		Url:  url,
-		Rss:  dat,
-		App:  tview.NewApplication().EnableMouse(true),
-		Info: NewInfo(),
-        Episodes: NewEpisodes(),
-		Flex: tview.NewFlex().SetDirection(tview.FlexRow),
+		Url:      url,
+		Rss:      dat,
+		App:      tview.NewApplication().EnableMouse(true),
+		Info:     NewInfo(),
+		Episodes: NewEpisodes(),
+		Image:    NewImage(),
+		Flex:     tview.NewFlex(),
 	}
 	return g
 }
 
 func (g *Gui) Run() error {
 	g.Info.UpdateView(g.Rss, g.Url)
-    g.Episodes.UpdateView(g.Rss)
-	g.Flex.AddItem(g.Info, 9, 1, false)
-    g.Flex.AddItem(g.Episodes, 0, 1, true)
+	g.Episodes.UpdateView(g.Rss)
+	g.Image.UpdateView(g.Rss)
+
+    g.Flex.AddItem(g.Image, 32, 1, false)
+
+	g.Flex.AddItem(tview.NewFlex().
+        SetDirection(tview.FlexRow).
+        AddItem(g.Info, 9, 1, false).
+        AddItem(g.Episodes, 0, 1, true), 0, 1, false)
 
 	if err := g.App.SetRoot(g.Flex, true).Run(); err != nil {
 		return err
